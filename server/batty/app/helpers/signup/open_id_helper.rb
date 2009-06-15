@@ -1,2 +1,0 @@
-module Signup::OpenIdHelper
-end

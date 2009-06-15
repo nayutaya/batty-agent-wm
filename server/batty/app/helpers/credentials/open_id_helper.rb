@@ -1,2 +1,0 @@
-module Credentials::OpenIdHelper
-end
