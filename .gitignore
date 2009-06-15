@@ -1,1 +1,7 @@
+*.csproj.user
+*.suo
 .DS_Store
+batty_agent/bin
+batty_agent/obj
+installer/Debug
+installer/Release
