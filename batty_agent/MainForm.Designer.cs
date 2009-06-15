@@ -112,7 +112,7 @@
             this.Controls.Add(this.exitButton);
             this.Menu = this.mainMenu1;
             this.Name = "MainForm";
-            this.Text = "Batty Agent";
+            this.Text = "batty Agent";
             this.ResumeLayout(false);
 
         }

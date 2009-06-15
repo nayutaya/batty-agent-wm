@@ -661,7 +661,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Batty Agent"
+        "ProductName" = "8:batty Agent"
         "Manufacturer" = "8:Nayutaya, Inc."
         "OSVersionMin" = "8:4.0"
         "OSVersionMax" = "8:6.99"
