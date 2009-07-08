@@ -15,14 +15,14 @@ namespace nayutaya.batty.agent
 {
     public partial class MainForm : Form
     {
-        private SystemState timeState;
-        private SystemState batteryModeState;
-        private SystemState batteryStrengthState;
-        private DateTime lastUpdate = DateTime.Now;
         private Setting setting;
-        private Logger logger = new Logger();
         private RecordManager recordManager;
+        private Logger logger;
+        private SystemState timeState;
+        private SystemState batteryLevelState;
+        private SystemState batteryChargeState;
         private bool initialized = false;
+        private DateTime lastUpdate = DateTime.Now;
 
         public MainForm()
         {
@@ -32,15 +32,16 @@ namespace nayutaya.batty.agent
 
             (new Thread(new ThreadStart(delegate
             {
-                this.LoadSetting();
-                this.LoadRecordManager();
+                this.SetupSetting();
+                this.SetupRecordManager();
+                this.SetupLogger();
                 this.SetupSystemStates();
                 this.initialized = true;
                 this.AddLog("起動しました");
             }))).Start();
         }
 
-        private void LoadSetting()
+        private void SetupSetting()
         {
             this.setting = new Setting();
 
@@ -48,20 +49,25 @@ namespace nayutaya.batty.agent
             settingManager.Load(this.setting);
         }
 
-        private void LoadRecordManager()
+        private void SetupRecordManager()
         {
             this.recordManager = new RecordManager();
             this.recordManager.Load();
+        }
+
+        private void SetupLogger()
+        {
+            this.logger = new Logger();
         }
 
         private void SetupSystemStates()
         {
             this.timeState = new SystemState(SystemProperty.Time);
             this.timeState.Changed += new ChangeEventHandler(timeState_Changed);
-            this.batteryModeState = new SystemState(SystemProperty.PowerBatteryState);
-            this.batteryModeState.Changed += new ChangeEventHandler(batteryModeState_Changed);
-            this.batteryStrengthState = new SystemState(SystemProperty.PowerBatteryStrength);
-            this.batteryStrengthState.Changed += new ChangeEventHandler(batteryStrengthState_Changed);
+            this.batteryLevelState = new SystemState(SystemProperty.PowerBatteryStrength);
+            this.batteryLevelState.Changed += new ChangeEventHandler(batteryLevelState_Changed);
+            this.batteryChargeState = new SystemState(SystemProperty.PowerBatteryState);
+            this.batteryChargeState.Changed += new ChangeEventHandler(batteryChargeState_Changed);
         }
 
         private void timeState_Changed(object sender, ChangeEventArgs args)
@@ -78,20 +84,20 @@ namespace nayutaya.batty.agent
             }
         }
 
-        void batteryModeState_Changed(object sender, ChangeEventArgs args)
-        {
-            if ( !this.initialized ) return;
-
-            this.AddLog("電源/充電状態が変化しました");
-            this.lastUpdate = DateTime.Now;
-            this.Send();
-        }
-
-        void batteryStrengthState_Changed(object sender, ChangeEventArgs args)
+        void batteryLevelState_Changed(object sender, ChangeEventArgs args)
         {
             if ( !this.initialized ) return;
 
             this.AddLog("バッテリレベルが変化しました");
+            this.lastUpdate = DateTime.Now;
+            this.Send();
+        }
+
+        void batteryChargeState_Changed(object sender, ChangeEventArgs args)
+        {
+            if ( !this.initialized ) return;
+
+            this.AddLog("電源/充電状態が変化しました");
             this.lastUpdate = DateTime.Now;
             this.Send();
         }
