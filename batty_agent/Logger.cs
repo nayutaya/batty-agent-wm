@@ -8,27 +8,25 @@ namespace nayutaya.batty.agent
 {
     class Logger
     {
-        private DirectoryInfo logdir = null;
+        private string logdir = null;
 
         public Logger()
         {
             DirectoryInfo rootdir = new DirectoryInfo(this.GetExecutingAssemblyDirectoryPath());
-            this.logdir = rootdir.CreateSubdirectory("log");
-
-            this.Write(DateTime.Now, 0);
+            this.logdir = rootdir.CreateSubdirectory("log").FullName;
         }
 
         public void Write(DateTime time, byte level)
         {
-            string timestr = time.ToString("yyyyMMdd");
-            string filepath = this.logdir.FullName + "\\" + timestr + ".txt";
+            string date = time.ToString("yyyyMMdd");
+            string filepath = this.logdir + "\\" + date + ".txt";
 
             using ( StreamWriter writer = File.AppendText(filepath) )
             {
-                writer.WriteLine("hoge");
+                string datetime = time.ToString("yyyy-MM-dd HH:mm:ss");
+                writer.WriteLine("{0},{1}", datetime, level.ToString());
             }
         }
-
 
         // TODO: ユーティリティクラスに移動する
         private string GetExecutingAssemblyFilePath()
