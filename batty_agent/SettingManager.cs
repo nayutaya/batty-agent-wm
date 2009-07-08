@@ -62,11 +62,13 @@ namespace nayutaya.batty.agent
             settingFile.Save();
         }
 
+        // TODO: ユーティリティクラスに移動する
         private string GetExecutingAssemblyFilePath()
         {
             return System.Reflection.Assembly.GetExecutingAssembly().ManifestModule.FullyQualifiedName;
         }
 
+        // TODO: ユーティリティクラスに移動する
         private string GetExecutingAssemblyDirectoryPath()
         {
             return System.IO.Path.GetDirectoryName(this.GetExecutingAssemblyFilePath());
