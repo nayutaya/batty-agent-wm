@@ -157,7 +157,10 @@ namespace nayutaya.batty.agent
             string deviceToken = this.setting.DeviceToken;
             byte level = bs.LifePercent.Value;
 
-            this.logger.Write(DateTime.Now, level);
+            if ( this.setting.EnableLevelLog )
+            {
+                this.logger.Write(DateTime.Now, level);
+            }
 
             WebRequest request = this.CreateUpdateRequest(deviceToken, level.ToString());
 

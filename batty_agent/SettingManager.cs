@@ -22,6 +22,7 @@ namespace nayutaya.batty.agent
 
             setting.EnableRecordOnBatteryCharging = (bool)this.LoadValue(settingFile, "Record", "EnableRecordOnBatteryCharging", true);
             setting.EnableRecordOnPowerConnecting = (bool)this.LoadValue(settingFile, "Record", "EnableRecordOnPowerConnecting", true);
+            setting.EnableLevelLog = (bool)this.LoadValue(settingFile, "Record", "EnableLevelLog", false);
 
             setting.RecordOnInterval = (bool)this.LoadValue(settingFile, "RecordTiming", "RecordOnInterval", true);
             setting.RecordOnIntervalMinute = (uint)this.LoadValue(settingFile, "RecordTiming", "RecordOnIntervalMinute", 10U);
@@ -44,6 +45,7 @@ namespace nayutaya.batty.agent
 
             this.SaveValue(settingFile, "Record", "EnableRecordOnBatteryCharging", setting.EnableRecordOnBatteryCharging);
             this.SaveValue(settingFile, "Record", "EnableRecordOnPowerConnecting", setting.EnableRecordOnPowerConnecting);
+            this.SaveValue(settingFile, "Record", "EnableLevelLog", setting.EnableLevelLog);
 
             this.SaveValue(settingFile, "RecordTiming", "RecordOnInterval", setting.RecordOnInterval);
             this.SaveValue(settingFile, "RecordTiming", "RecordOnIntervalMinute", setting.RecordOnIntervalMinute);

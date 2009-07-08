@@ -27,6 +27,7 @@ namespace nayutaya.batty.agent
             // [記録]タブ
             this.enableRecordOnBatteryChargingCheckBox.Checked = setting.EnableRecordOnBatteryCharging;
             this.enableRecordOnPowerConnectingCheckBox.Checked = setting.EnableRecordOnPowerConnecting;
+            this.enableLevelLogCheckBox.Checked = setting.EnableLevelLog;
 
             // [記録タイミング]タブ
             this.recordOnIntervalCheckBox.Checked = setting.RecordOnInterval;
@@ -51,6 +52,7 @@ namespace nayutaya.batty.agent
             // [記録]タブ
             setting.EnableRecordOnBatteryCharging = this.enableRecordOnBatteryChargingCheckBox.Checked;
             setting.EnableRecordOnPowerConnecting = this.enableRecordOnPowerConnectingCheckBox.Checked;
+            setting.EnableLevelLog = this.enableLevelLogCheckBox.Checked;
 
             // [記録タイミング]タブ
             setting.RecordOnInterval = this.recordOnIntervalCheckBox.Checked;

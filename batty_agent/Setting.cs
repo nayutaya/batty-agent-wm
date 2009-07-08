@@ -10,6 +10,7 @@ namespace nayutaya.batty.agent
         private String deviceToken;
         private bool enableRecordOnBatteryCharging;
         private bool enableRecordOnPowerConnecting;
+        private bool enableLevelLog;
         private bool recordOnInterval;
         private uint recordOnIntervalMinute;
         private bool recordOnChangeLevelState;
@@ -37,6 +38,12 @@ namespace nayutaya.batty.agent
         {
             get { return enableRecordOnPowerConnecting; }
             set { enableRecordOnPowerConnecting = value; }
+        }
+
+        public bool EnableLevelLog
+        {
+            get { return enableLevelLog; }
+            set { enableLevelLog = value; }
         }
 
         public bool RecordOnInterval
