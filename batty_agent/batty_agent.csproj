@@ -104,6 +104,7 @@
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingManager.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
