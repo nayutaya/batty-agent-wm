@@ -215,7 +215,6 @@
             // 
             this.enableRecordOnBatteryChargingCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.enableRecordOnBatteryChargingCheckBox.ForeColor = System.Drawing.Color.Red;
             this.enableRecordOnBatteryChargingCheckBox.Location = new System.Drawing.Point(3, 0);
             this.enableRecordOnBatteryChargingCheckBox.Name = "enableRecordOnBatteryChargingCheckBox";
             this.enableRecordOnBatteryChargingCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -226,7 +225,6 @@
             // 
             this.enableRecordOnPowerConnectingCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.enableRecordOnPowerConnectingCheckBox.ForeColor = System.Drawing.Color.Red;
             this.enableRecordOnPowerConnectingCheckBox.Location = new System.Drawing.Point(3, 74);
             this.enableRecordOnPowerConnectingCheckBox.Name = "enableRecordOnPowerConnectingCheckBox";
             this.enableRecordOnPowerConnectingCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -304,7 +302,6 @@
             // 
             this.recordOnChangeChargeStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.recordOnChangeChargeStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.recordOnChangeChargeStateCheckBox.Location = new System.Drawing.Point(3, 115);
             this.recordOnChangeChargeStateCheckBox.Name = "recordOnChangeChargeStateCheckBox";
             this.recordOnChangeChargeStateCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -315,7 +312,6 @@
             // 
             this.recordOnChangeLevelStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.recordOnChangeLevelStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.recordOnChangeLevelStateCheckBox.Location = new System.Drawing.Point(3, 89);
             this.recordOnChangeLevelStateCheckBox.Name = "recordOnChangeLevelStateCheckBox";
             this.recordOnChangeLevelStateCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -362,7 +358,6 @@
             // 
             this.sendOnIntervalCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendOnIntervalCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnIntervalCheckBox.Location = new System.Drawing.Point(3, 35);
             this.sendOnIntervalCheckBox.Name = "sendOnIntervalCheckBox";
             this.sendOnIntervalCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -381,7 +376,6 @@
             // 
             this.sendOnCountCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendOnCountCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnCountCheckBox.Location = new System.Drawing.Point(3, 89);
             this.sendOnCountCheckBox.Name = "sendOnCountCheckBox";
             this.sendOnCountCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -416,7 +410,6 @@
             // 
             this.sendOnChangeChargeStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendOnChangeChargeStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnChangeChargeStateCheckBox.Location = new System.Drawing.Point(3, 169);
             this.sendOnChangeChargeStateCheckBox.Name = "sendOnChangeChargeStateCheckBox";
             this.sendOnChangeChargeStateCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -441,7 +434,6 @@
             // 
             this.sendOnChangeLevelStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendOnChangeLevelStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnChangeLevelStateCheckBox.Location = new System.Drawing.Point(3, 143);
             this.sendOnChangeLevelStateCheckBox.Name = "sendOnChangeLevelStateCheckBox";
             this.sendOnChangeLevelStateCheckBox.Size = new System.Drawing.Size(220, 20);
