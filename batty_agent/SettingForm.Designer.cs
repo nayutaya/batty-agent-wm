@@ -39,6 +39,8 @@
             this.invalidTokenLabel = new System.Windows.Forms.Label();
             this.recordTabPage = new System.Windows.Forms.TabPage();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.enableLevelLogCheckBox = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.enableRecordOnBatteryChargingCheckBox = new System.Windows.Forms.CheckBox();
@@ -62,8 +64,6 @@
             this.sendOnChangeChargeStateCheckBox = new System.Windows.Forms.CheckBox();
             this.sendOnCountRecordComboBox = new System.Windows.Forms.ComboBox();
             this.sendOnChangeBatteryStateCheckBox = new System.Windows.Forms.CheckBox();
-            this.enableLevelLogCheckBox = new System.Windows.Forms.CheckBox();
-            this.label9 = new System.Windows.Forms.Label();
             this.settingTab.SuspendLayout();
             this.generalTabPage.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -174,6 +174,25 @@
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(226, 235);
             // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.Location = new System.Drawing.Point(33, 171);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(190, 48);
+            this.label9.Text = "バッテリ残量のログを、logディレクトリに保存します。1日1ファイルとして保存されます。";
+            // 
+            // enableLevelLogCheckBox
+            // 
+            this.enableLevelLogCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.enableLevelLogCheckBox.Location = new System.Drawing.Point(3, 148);
+            this.enableLevelLogCheckBox.Name = "enableLevelLogCheckBox";
+            this.enableLevelLogCheckBox.Size = new System.Drawing.Size(220, 20);
+            this.enableLevelLogCheckBox.TabIndex = 2;
+            this.enableLevelLogCheckBox.Text = "バッテリ残量のログを保存する";
+            // 
             // label8
             // 
             this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -196,6 +215,7 @@
             // 
             this.enableRecordOnBatteryChargingCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.enableRecordOnBatteryChargingCheckBox.ForeColor = System.Drawing.Color.Red;
             this.enableRecordOnBatteryChargingCheckBox.Location = new System.Drawing.Point(3, 0);
             this.enableRecordOnBatteryChargingCheckBox.Name = "enableRecordOnBatteryChargingCheckBox";
             this.enableRecordOnBatteryChargingCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -206,6 +226,7 @@
             // 
             this.enableRecordOnPowerConnectingCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.enableRecordOnPowerConnectingCheckBox.ForeColor = System.Drawing.Color.Red;
             this.enableRecordOnPowerConnectingCheckBox.Location = new System.Drawing.Point(3, 74);
             this.enableRecordOnPowerConnectingCheckBox.Name = "enableRecordOnPowerConnectingCheckBox";
             this.enableRecordOnPowerConnectingCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -283,6 +304,7 @@
             // 
             this.recordOnChangeChargeStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.recordOnChangeChargeStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.recordOnChangeChargeStateCheckBox.Location = new System.Drawing.Point(3, 115);
             this.recordOnChangeChargeStateCheckBox.Name = "recordOnChangeChargeStateCheckBox";
             this.recordOnChangeChargeStateCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -293,6 +315,7 @@
             // 
             this.recordOnChangeLevelStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.recordOnChangeLevelStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.recordOnChangeLevelStateCheckBox.Location = new System.Drawing.Point(3, 89);
             this.recordOnChangeLevelStateCheckBox.Name = "recordOnChangeLevelStateCheckBox";
             this.recordOnChangeLevelStateCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -339,6 +362,7 @@
             // 
             this.sendOnIntervalCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendOnIntervalCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnIntervalCheckBox.Location = new System.Drawing.Point(3, 35);
             this.sendOnIntervalCheckBox.Name = "sendOnIntervalCheckBox";
             this.sendOnIntervalCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -357,6 +381,7 @@
             // 
             this.sendOnCountCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendOnCountCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnCountCheckBox.Location = new System.Drawing.Point(3, 89);
             this.sendOnCountCheckBox.Name = "sendOnCountCheckBox";
             this.sendOnCountCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -391,6 +416,7 @@
             // 
             this.sendOnChangeChargeStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendOnChangeChargeStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnChangeChargeStateCheckBox.Location = new System.Drawing.Point(3, 169);
             this.sendOnChangeChargeStateCheckBox.Name = "sendOnChangeChargeStateCheckBox";
             this.sendOnChangeChargeStateCheckBox.Size = new System.Drawing.Size(220, 20);
@@ -415,30 +441,12 @@
             // 
             this.sendOnChangeBatteryStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.sendOnChangeBatteryStateCheckBox.ForeColor = System.Drawing.Color.Red;
             this.sendOnChangeBatteryStateCheckBox.Location = new System.Drawing.Point(3, 143);
             this.sendOnChangeBatteryStateCheckBox.Name = "sendOnChangeBatteryStateCheckBox";
             this.sendOnChangeBatteryStateCheckBox.Size = new System.Drawing.Size(220, 20);
             this.sendOnChangeBatteryStateCheckBox.TabIndex = 4;
             this.sendOnChangeBatteryStateCheckBox.Text = "バッテリレベル変化時に送信";
-            // 
-            // enableLevelLogCheckBox
-            // 
-            this.enableLevelLogCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.enableLevelLogCheckBox.Location = new System.Drawing.Point(3, 148);
-            this.enableLevelLogCheckBox.Name = "enableLevelLogCheckBox";
-            this.enableLevelLogCheckBox.Size = new System.Drawing.Size(220, 20);
-            this.enableLevelLogCheckBox.TabIndex = 2;
-            this.enableLevelLogCheckBox.Text = "バッテリ残量のログを保存する";
-            // 
-            // label9
-            // 
-            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.label9.Location = new System.Drawing.Point(33, 171);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(190, 48);
-            this.label9.Text = "バッテリ残量のログを、logディレクトリに保存します。1日1ファイルとして保存されます。";
             // 
             // SettingForm
             // 
