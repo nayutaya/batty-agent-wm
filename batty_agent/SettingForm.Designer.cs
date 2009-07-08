@@ -63,7 +63,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.sendOnChangeChargeStateCheckBox = new System.Windows.Forms.CheckBox();
             this.sendOnCountRecordComboBox = new System.Windows.Forms.ComboBox();
-            this.sendOnChangeBatteryStateCheckBox = new System.Windows.Forms.CheckBox();
+            this.sendOnChangeLevelStateCheckBox = new System.Windows.Forms.CheckBox();
             this.settingTab.SuspendLayout();
             this.generalTabPage.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -344,7 +344,7 @@
             this.panel3.Controls.Add(this.label5);
             this.panel3.Controls.Add(this.sendOnChangeChargeStateCheckBox);
             this.panel3.Controls.Add(this.sendOnCountRecordComboBox);
-            this.panel3.Controls.Add(this.sendOnChangeBatteryStateCheckBox);
+            this.panel3.Controls.Add(this.sendOnChangeLevelStateCheckBox);
             this.panel3.Location = new System.Drawing.Point(7, 7);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(226, 235);
@@ -437,16 +437,16 @@
             this.sendOnCountRecordComboBox.Size = new System.Drawing.Size(50, 22);
             this.sendOnCountRecordComboBox.TabIndex = 3;
             // 
-            // sendOnChangeBatteryStateCheckBox
+            // sendOnChangeLevelStateCheckBox
             // 
-            this.sendOnChangeBatteryStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.sendOnChangeLevelStateCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.sendOnChangeBatteryStateCheckBox.ForeColor = System.Drawing.Color.Red;
-            this.sendOnChangeBatteryStateCheckBox.Location = new System.Drawing.Point(3, 143);
-            this.sendOnChangeBatteryStateCheckBox.Name = "sendOnChangeBatteryStateCheckBox";
-            this.sendOnChangeBatteryStateCheckBox.Size = new System.Drawing.Size(220, 20);
-            this.sendOnChangeBatteryStateCheckBox.TabIndex = 4;
-            this.sendOnChangeBatteryStateCheckBox.Text = "バッテリレベル変化時に送信";
+            this.sendOnChangeLevelStateCheckBox.ForeColor = System.Drawing.Color.Red;
+            this.sendOnChangeLevelStateCheckBox.Location = new System.Drawing.Point(3, 143);
+            this.sendOnChangeLevelStateCheckBox.Name = "sendOnChangeLevelStateCheckBox";
+            this.sendOnChangeLevelStateCheckBox.Size = new System.Drawing.Size(220, 20);
+            this.sendOnChangeLevelStateCheckBox.TabIndex = 4;
+            this.sendOnChangeLevelStateCheckBox.Text = "バッテリレベル変化時に送信";
             // 
             // SettingForm
             // 
@@ -491,7 +491,7 @@
         private System.Windows.Forms.ComboBox sendOnCountRecordComboBox;
         private System.Windows.Forms.CheckBox sendOnCountCheckBox;
         private System.Windows.Forms.CheckBox sendOnChangeChargeStateCheckBox;
-        private System.Windows.Forms.CheckBox sendOnChangeBatteryStateCheckBox;
+        private System.Windows.Forms.CheckBox sendOnChangeLevelStateCheckBox;
         private System.Windows.Forms.TabPage generalTabPage;
         private System.Windows.Forms.TextBox deviceTokenTextBox;
         private System.Windows.Forms.Label label6;

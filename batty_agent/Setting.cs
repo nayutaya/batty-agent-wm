@@ -19,7 +19,7 @@ namespace nayutaya.batty.agent
         private uint sendOnIntervalMinute;
         private bool sendOnCount;
         private uint sendOnCountRecord;
-        private bool sendOnChangeBatteryState;
+        private bool sendOnChangeLevelState;
         private bool sendOnChangeChargeState;
 
         public String DeviceToken
@@ -94,10 +94,10 @@ namespace nayutaya.batty.agent
             set { sendOnCountRecord = value; }
         }
 
-        public bool SendOnChangeBatteryState
+        public bool SendOnChangeLevelState
         {
-            get { return sendOnChangeBatteryState; }
-            set { sendOnChangeBatteryState = value; }
+            get { return sendOnChangeLevelState; }
+            set { sendOnChangeLevelState = value; }
         }
 
         public bool SendOnChangeChargeState

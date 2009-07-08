@@ -40,7 +40,7 @@ namespace nayutaya.batty.agent
             this.sendOnIntervalMinuteComboBox.Text = setting.SendOnIntervalMinute.ToString();
             this.sendOnCountCheckBox.Checked = setting.SendOnCount;
             this.sendOnCountRecordComboBox.Text = setting.SendOnCountRecord.ToString();
-            this.sendOnChangeBatteryStateCheckBox.Checked = setting.SendOnChangeBatteryState;
+            this.sendOnChangeLevelStateCheckBox.Checked = setting.SendOnChangeLevelState;
             this.sendOnChangeChargeStateCheckBox.Checked = setting.SendOnChangeChargeState;
         }
 
@@ -65,7 +65,7 @@ namespace nayutaya.batty.agent
             setting.SendOnIntervalMinute = uint.Parse(this.sendOnIntervalMinuteComboBox.Text);
             setting.SendOnCount = this.sendOnCountCheckBox.Checked;
             setting.SendOnCountRecord = uint.Parse(this.sendOnCountRecordComboBox.Text);
-            setting.SendOnChangeBatteryState = this.sendOnChangeBatteryStateCheckBox.Checked;
+            setting.SendOnChangeLevelState = this.sendOnChangeLevelStateCheckBox.Checked;
             setting.SendOnChangeChargeState = this.sendOnChangeChargeStateCheckBox.Checked;
         }
 
