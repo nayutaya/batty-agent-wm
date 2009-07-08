@@ -9,10 +9,12 @@ namespace nayutaya.batty.agent
     class RecordManager
     {
         private const int MaxOfRecords = 100;
+        private readonly string filepath = null;
         private List<Record> records = null;
 
         public RecordManager()
         {
+            this.filepath = @"\Program Files\batty_agent\records.txt";
             this.records = new List<Record>();
         }
 
@@ -28,7 +30,7 @@ namespace nayutaya.batty.agent
 
         public void Save()
         {
-            using ( System.IO.StreamWriter writer = System.IO.File.CreateText(@"\Program Files\batty_agent\records.txt") )
+            using ( StreamWriter writer = File.CreateText(this.filepath) )
             {
                 RecordStorage.Save(writer, records);
             }
@@ -38,7 +40,7 @@ namespace nayutaya.batty.agent
         {
             try
             {
-                using ( StreamReader reader = File.OpenText(@"\Program Files\batty_agent\records.txt") )
+                using ( StreamReader reader = File.OpenText(this.filepath) )
                 {
                     this.records = RecordStorage.Load(reader);
                 }
