@@ -19,6 +19,7 @@ namespace nayutaya.batty.agent
         private SystemState batteryStrengthState = new SystemState(SystemProperty.PowerBatteryStrength);
         private DateTime lastUpdate = DateTime.Now;
         private Setting setting = new Setting();
+        private Logger logger = new Logger();
 
         public MainForm()
         {
@@ -154,9 +155,14 @@ namespace nayutaya.batty.agent
             }
 
             string deviceToken = this.setting.DeviceToken;
-            string level = bs.LifePercent.ToString();
+            byte level = bs.LifePercent.Value;
 
-            WebRequest request = this.CreateUpdateRequest(deviceToken, level);
+            if ( this.setting.EnableLevelLog )
+            {
+                this.logger.Write(DateTime.Now, level);
+            }
+
+            WebRequest request = this.CreateUpdateRequest(deviceToken, level.ToString());
 
             try
             {
