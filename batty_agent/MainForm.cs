@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Net;
+using System.Threading;
 using Microsoft.WindowsMobile.Status;
 
 namespace nayutaya.batty.agent
@@ -20,19 +21,36 @@ namespace nayutaya.batty.agent
         private DateTime lastUpdate = DateTime.Now;
         private Setting setting = new Setting();
         private Logger logger = new Logger();
+        private RecordManager recordManager = null;
+        private bool initialized = false;
 
         public MainForm()
         {
             InitializeComponent();
 
-            this.LoadSetting();
-            this.SetupSystemStates();
+            this.AddLog("起動しています");
+
+            Thread t = new Thread(new ThreadStart(delegate
+            {
+                this.LoadSetting();
+                this.LoadRecordManager();
+                this.SetupSystemStates();
+                this.initialized = true;
+                this.AddLog("起動しました");
+            }));
+            t.Start();
         }
 
         private void LoadSetting()
         {
             SettingManager settingManager = new SettingManager();
             settingManager.Load(this.setting);
+        }
+
+        private void LoadRecordManager()
+        {
+            this.recordManager = new RecordManager();
+            this.recordManager.Load();
         }
 
         private void SetupSystemStates()
@@ -44,6 +62,8 @@ namespace nayutaya.batty.agent
 
         private void timeState_Changed(object sender, ChangeEventArgs args)
         {
+            if ( !this.initialized ) return;
+
             DateTime now = DateTime.Now;
             DateTime nextUpdate = this.lastUpdate.AddMinutes(this.setting.RecordOnIntervalMinute).AddSeconds(-30);
             if ( now >= nextUpdate )
@@ -56,6 +76,8 @@ namespace nayutaya.batty.agent
 
         void batteryModeState_Changed(object sender, ChangeEventArgs args)
         {
+            if ( !this.initialized ) return;
+
             this.AddLog("電源/充電状態が変化しました");
             this.lastUpdate = DateTime.Now;
             this.Send();
@@ -63,6 +85,8 @@ namespace nayutaya.batty.agent
 
         void batteryStrengthState_Changed(object sender, ChangeEventArgs args)
         {
+            if ( !this.initialized ) return;
+
             this.AddLog("バッテリレベルが変化しました");
             this.lastUpdate = DateTime.Now;
             this.Send();
@@ -75,14 +99,23 @@ namespace nayutaya.batty.agent
 
         private void showCurrentLevelButton_Click(object sender, EventArgs e)
         {
+            if ( !this.initialized ) return;
+
             BatteryStatus battery = new BatteryStatus();
             this.AddLog("バッテリ残量: " + (battery.LifePercent.HasValue ? battery.LifePercent.ToString() + " %" : "不明"));
             this.AddLog("充電中: " + (battery.Charging.HasValue ? (battery.Charging.Value ? "はい" : "いいえ") : "不明"));
             this.AddLog("電源接続中: " + (battery.PowerLineConnecting.HasValue ? (battery.PowerLineConnecting.Value ? "はい" : "いいえ") : "不明"));
         }
 
+        private delegate void AddLogDelegate(string message);
         private void AddLog(string message)
         {
+            if ( this.InvokeRequired )
+            {
+                this.Invoke(new AddLogDelegate(this.AddLog), message);
+                return;
+            }
+
             DateTime dt = DateTime.Now;
 
             ListViewItem lvi = new ListViewItem();
@@ -99,6 +132,8 @@ namespace nayutaya.batty.agent
 
         private void sendButton_Click(object sender, EventArgs e)
         {
+            if ( !this.initialized ) return;
+
             this.AddLog("手動送信");
             this.Send();
         }
@@ -181,6 +216,8 @@ namespace nayutaya.batty.agent
 
         private void settingButton_Click(object sender, EventArgs e)
         {
+            if ( !this.initialized ) return;
+
             SettingForm form = new SettingForm();
             form.LoadFrom(this.setting);
             form.ShowDialog();
