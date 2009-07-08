@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="Record.cs" />
     <Compile Include="RecordManager.cs" />
+    <Compile Include="RecordStorage.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="SettingForm.cs">
       <SubType>Form</SubType>
