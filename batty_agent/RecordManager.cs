@@ -33,6 +33,21 @@ namespace nayutaya.batty.agent
             }
         }
 
+        public List<Record> GetUnsentRecords()
+        {
+            List<Record> records = new List<Record>();
+
+            foreach ( Record record in this.records )
+            {
+                if ( !record.Sent )
+                {
+                    records.Add(record);
+                }
+            }
+
+            return records;
+        }
+
         public void Save()
         {
             using ( StreamWriter writer = File.CreateText(this.filepath) )
