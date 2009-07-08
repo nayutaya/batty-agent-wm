@@ -94,6 +94,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Record.cs" />
+    <Compile Include="RecordManager.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="SettingForm.cs">
       <SubType>Form</SubType>
