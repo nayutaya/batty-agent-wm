@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace nayutaya.batty.agent
 {
@@ -25,16 +26,25 @@ namespace nayutaya.batty.agent
             }
         }
 
+        public void Load()
+        {
+            try
+            {
+                using ( StreamReader reader = File.OpenText(@"\Program Files\batty_agent\records.txt") )
+                {
+                    this.records = RecordStorage.Load(reader);
+                }
+            }
+            catch ( FileNotFoundException )
+            {
+                this.records = new List<Record>();
+            }
+        }
+
         /*
         using ( System.IO.StreamWriter writer = System.IO.File.CreateText(@"\Program Files\batty_agent\test.txt") )
         {
             RecordStorage.Save(writer, records);
-        }
-         */
-        /*
-        using ( System.IO.StreamReader reader = System.IO.File.OpenText(@"\Program Files\batty_agent\test.txt") )
-        {
-            List<Record> records2 = RecordStorage.Load(reader);
         }
          */
     }
