@@ -15,13 +15,13 @@ namespace nayutaya.batty.agent
 {
     public partial class MainForm : Form
     {
-        private SystemState timeState = new SystemState(SystemProperty.Time);
-        private SystemState batteryModeState = new SystemState(SystemProperty.PowerBatteryState);
-        private SystemState batteryStrengthState = new SystemState(SystemProperty.PowerBatteryStrength);
+        private SystemState timeState;
+        private SystemState batteryModeState;
+        private SystemState batteryStrengthState;
         private DateTime lastUpdate = DateTime.Now;
-        private Setting setting = new Setting();
+        private Setting setting;
         private Logger logger = new Logger();
-        private RecordManager recordManager = null;
+        private RecordManager recordManager;
         private bool initialized = false;
 
         public MainForm()
@@ -30,19 +30,20 @@ namespace nayutaya.batty.agent
 
             this.AddLog("起動しています");
 
-            Thread t = new Thread(new ThreadStart(delegate
+            (new Thread(new ThreadStart(delegate
             {
                 this.LoadSetting();
                 this.LoadRecordManager();
                 this.SetupSystemStates();
                 this.initialized = true;
                 this.AddLog("起動しました");
-            }));
-            t.Start();
+            }))).Start();
         }
 
         private void LoadSetting()
         {
+            this.setting = new Setting();
+
             SettingManager settingManager = new SettingManager();
             settingManager.Load(this.setting);
         }
@@ -55,8 +56,11 @@ namespace nayutaya.batty.agent
 
         private void SetupSystemStates()
         {
+            this.timeState = new SystemState(SystemProperty.Time);
             this.timeState.Changed += new ChangeEventHandler(timeState_Changed);
+            this.batteryModeState = new SystemState(SystemProperty.PowerBatteryState);
             this.batteryModeState.Changed += new ChangeEventHandler(batteryModeState_Changed);
+            this.batteryStrengthState = new SystemState(SystemProperty.PowerBatteryStrength);
             this.batteryStrengthState.Changed += new ChangeEventHandler(batteryStrengthState_Changed);
         }
 
