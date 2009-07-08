@@ -14,8 +14,13 @@ namespace nayutaya.batty.agent
 
         public RecordManager()
         {
-            this.filepath = @"\Program Files\batty_agent\records.txt";
+            this.filepath = Utility.GetExecutingAssemblyDirectoryPath() +  @"\records.txt";
             this.records = new List<Record>();
+        }
+
+        public int Count
+        {
+            get { return this.records.Count; }
         }
 
         public void Add(Record record)
