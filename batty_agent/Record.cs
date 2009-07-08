@@ -29,17 +29,18 @@ namespace nayutaya.batty.agent
 
         public DateTime Time
         {
-            get { return time; }
+            get { return this.time; }
         }
 
         public byte Level
         {
-            get { return level; }
+            get { return this.level; }
         }
 
         public bool Sent
         {
-            get { return sent; }
+            get { return this.sent; }
+            set { this.sent = value; }
         }
     }
 }

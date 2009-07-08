@@ -33,6 +33,18 @@ namespace nayutaya.batty.agent
             }
         }
 
+        public void MarkSent(DateTime time, byte level)
+        {
+            foreach ( Record record in this.records )
+            {
+                if ( record.Time == time && record.Level == level )
+                {
+                    record.Sent = true;
+                    break;
+                }
+            }
+        }
+
         public List<Record> GetUnsentRecords()
         {
             List<Record> records = new List<Record>();
