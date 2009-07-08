@@ -23,6 +23,8 @@ namespace nayutaya.batty.agent
         private SystemState batteryChargeState;
         private bool initialized = false;
         private DateTime lastUpdate = DateTime.Now;
+        private DateTime lastRecord = DateTime.Now;
+        private DateTime lastSend = DateTime.Now;
 
         public MainForm()
         {
@@ -48,14 +50,19 @@ namespace nayutaya.batty.agent
             this.logger = new Logger();
         }
 
+        private delegate void MethodInvoker();
         private void SetupSystemStates()
         {
             this.timeState = new SystemState(SystemProperty.Time);
-            this.timeState.Changed += new ChangeEventHandler(timeState_Changed);
             this.batteryLevelState = new SystemState(SystemProperty.PowerBatteryStrength);
-            this.batteryLevelState.Changed += new ChangeEventHandler(batteryLevelState_Changed);
             this.batteryChargeState = new SystemState(SystemProperty.PowerBatteryState);
-            this.batteryChargeState.Changed += new ChangeEventHandler(batteryChargeState_Changed);
+
+            this.Invoke(new MethodInvoker(delegate
+            {
+                this.timeState.Changed += new ChangeEventHandler(timeState_Changed);
+                this.batteryLevelState.Changed += new ChangeEventHandler(batteryLevelState_Changed);
+                this.batteryChargeState.Changed += new ChangeEventHandler(batteryChargeState_Changed);
+            }));
         }
 
         private delegate void AddLogDelegate(string message);
@@ -96,6 +103,16 @@ namespace nayutaya.batty.agent
             request.Timeout = 20 * 1000;
 
             return request;
+        }
+
+        private void RecordLevel()
+        {
+            this.lastRecord = DateTime.Now;
+        }
+
+        private void SendLevel()
+        {
+            this.lastSend = DateTime.Now;
         }
 
         private bool Send()
@@ -179,6 +196,27 @@ namespace nayutaya.batty.agent
             if ( !this.initialized ) return;
 
             DateTime now = DateTime.Now;
+
+            DateTime nextRecord = this.lastRecord.AddMinutes(this.setting.RecordOnIntervalMinute).AddSeconds(-30);
+            if ( this.setting.RecordOnInterval && now >= nextRecord )
+            {
+                this.AddLog(String.Format("記録: {0}分経過しました", this.setting.RecordOnIntervalMinute));
+                this.RecordLevel();
+            }
+
+            DateTime nextSend = this.lastSend.AddMinutes(this.setting.SendOnIntervalMinute).AddSeconds(-30);
+            if ( this.setting.SendOnInterval && now >= nextSend )
+            {
+                this.AddLog(String.Format("送信: {0}分経過しました", this.setting.SendOnIntervalMinute));
+                this.SendLevel();
+            }
+
+            if ( this.setting.SendOnCount && this.recordManager.Count >= this.setting.SendOnCountRecord )
+            {
+                this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
+                this.SendLevel();
+            }
+
             DateTime nextUpdate = this.lastUpdate.AddMinutes(this.setting.RecordOnIntervalMinute).AddSeconds(-30);
             if ( now >= nextUpdate )
             {
@@ -192,6 +230,24 @@ namespace nayutaya.batty.agent
         {
             if ( !this.initialized ) return;
 
+            if ( this.setting.RecordOnChangeLevelState )
+            {
+                this.AddLog("記録: バッテリレベルが変化しました");
+                this.RecordLevel();
+            }
+
+            if ( this.setting.SendOnChangeLevelState )
+            {
+                this.AddLog("送信: バッテリレベルが変化しました");
+                this.SendLevel();
+            }
+
+            if ( this.setting.SendOnCount && this.recordManager.Count >= this.setting.SendOnCountRecord )
+            {
+                this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
+                this.SendLevel();
+            }
+
             this.AddLog("バッテリレベルが変化しました");
             this.lastUpdate = DateTime.Now;
             this.Send();
@@ -200,6 +256,24 @@ namespace nayutaya.batty.agent
         void batteryChargeState_Changed(object sender, ChangeEventArgs args)
         {
             if ( !this.initialized ) return;
+
+            if ( this.setting.RecordOnChangeChargeState )
+            {
+                this.AddLog("記録: 電源/充電状態が変化しました");
+                this.RecordLevel();
+            }
+
+            if ( this.setting.SendOnChangeChargeState || (this.setting.SendOnCount && this.recordManager.Count >= this.setting.SendOnCountRecord) )
+            {
+                this.AddLog("送信: 電源/充電状態が変化しました");
+                this.SendLevel();
+            }
+
+            if ( this.setting.SendOnCount && this.recordManager.Count >= this.setting.SendOnCountRecord )
+            {
+                this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
+                this.SendLevel();
+            }
 
             this.AddLog("電源/充電状態が変化しました");
             this.lastUpdate = DateTime.Now;
