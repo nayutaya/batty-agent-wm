@@ -93,6 +93,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Record.cs" />
+    <Compile Include="RecordManager.cs" />
+    <Compile Include="RecordStorage.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="SettingForm.cs">
       <SubType>Form</SubType>
@@ -101,6 +104,7 @@
       <DependentUpon>SettingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingManager.cs" />
+    <Compile Include="Utility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.ico" />
