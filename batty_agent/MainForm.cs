@@ -27,18 +27,6 @@ namespace nayutaya.batty.agent
         public MainForm()
         {
             InitializeComponent();
-
-            this.AddLog("起動しています");
-
-            (new Thread(new ThreadStart(delegate
-            {
-                this.SetupSetting();
-                this.SetupRecordManager();
-                this.SetupLogger();
-                this.SetupSystemStates();
-                this.initialized = true;
-                this.AddLog("起動しました");
-            }))).Start();
         }
 
         private void SetupSetting()
@@ -68,6 +56,23 @@ namespace nayutaya.batty.agent
             this.batteryLevelState.Changed += new ChangeEventHandler(batteryLevelState_Changed);
             this.batteryChargeState = new SystemState(SystemProperty.PowerBatteryState);
             this.batteryChargeState.Changed += new ChangeEventHandler(batteryChargeState_Changed);
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            if ( !this.initialized )
+            {
+                (new Thread(new ThreadStart(delegate
+                {
+                    this.AddLog("起動しています");
+                    this.SetupSetting();
+                    this.SetupRecordManager();
+                    this.SetupLogger();
+                    this.SetupSystemStates();
+                    this.initialized = true;
+                    this.AddLog("起動しました");
+                }))).Start();
+            }
         }
 
         private void timeState_Changed(object sender, ChangeEventArgs args)
