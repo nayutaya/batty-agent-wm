@@ -152,8 +152,6 @@ namespace nayutaya.batty.agent
             {
                 this.logger.Write(DateTime.Now, bs.LifePercent.Value);
             }
-
-            this.AddLog("記録しました");
         }
 
         private void SendLevel()
@@ -196,8 +194,6 @@ namespace nayutaya.batty.agent
                     break;
                 }
             }
-
-            this.AddLog("送信しました");
         }
 
         private void MainForm_Load(object sender, EventArgs e)
