@@ -26,6 +26,14 @@ namespace nayutaya.batty.agent
             }
         }
 
+        public void Save()
+        {
+            using ( System.IO.StreamWriter writer = System.IO.File.CreateText(@"\Program Files\batty_agent\records.txt") )
+            {
+                RecordStorage.Save(writer, records);
+            }
+        }
+
         public void Load()
         {
             try
@@ -40,12 +48,5 @@ namespace nayutaya.batty.agent
                 this.records = new List<Record>();
             }
         }
-
-        /*
-        using ( System.IO.StreamWriter writer = System.IO.File.CreateText(@"\Program Files\batty_agent\test.txt") )
-        {
-            RecordStorage.Save(writer, records);
-        }
-         */
     }
 }
