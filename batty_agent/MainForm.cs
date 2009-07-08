@@ -22,7 +22,6 @@ namespace nayutaya.batty.agent
         private SystemState batteryLevelState;
         private SystemState batteryChargeState;
         private bool initialized = false;
-        private DateTime lastUpdate = DateTime.Now;
         private DateTime lastRecord = DateTime.Now;
         private DateTime lastSend = DateTime.Now;
 
@@ -200,61 +199,6 @@ namespace nayutaya.batty.agent
             this.AddLog("送信しました");
         }
 
-        private bool Send()
-        {
-            BatteryStatus bs = new BatteryStatus();
-
-            if ( !bs.PowerLineConnecting.HasValue )
-            {
-                this.AddLog("電源状態が不明です");
-                return false;
-            }
-            /*
-            if ( bs.PowerLineConnecting.Value )
-            {
-                this.AddLog("電源接続中です");
-                return false;
-            }
-             */
-            if ( !bs.Charging.HasValue )
-            {
-                this.AddLog("充電状態が不明です");
-                return false;
-            }
-            /*
-            if ( bs.Charging.Value )
-            {
-                this.AddLog("充電中です");
-                return false;
-            }
-             */
-            if ( !bs.LifePercent.HasValue )
-            {
-                this.AddLog("バッテリレベルが不明です");
-                return false;
-            }
-
-            string deviceToken = this.setting.DeviceToken;
-            byte level = bs.LifePercent.Value;
-
-
-            WebRequest request = this.CreateUpdateRequest(deviceToken, level.ToString());
-
-            try
-            {
-                using ( WebResponse response = request.GetResponse() )
-                {
-                    this.AddLog("送信しました");
-                    return true;
-                }
-            }
-            catch ( Exception ex )
-            {
-                this.AddLog(ex.GetType().Name + ": " + ex.Message);
-                return false;
-            }
-        }
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             if ( !this.initialized )
@@ -297,16 +241,6 @@ namespace nayutaya.batty.agent
                 this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
                 this.SendLevel();
             }
-
-            /*
-            DateTime nextUpdate = this.lastUpdate.AddMinutes(this.setting.RecordOnIntervalMinute).AddSeconds(-30);
-            if ( now >= nextUpdate )
-            {
-                this.AddLog(String.Format("{0}分経過しました", this.setting.RecordOnIntervalMinute));
-                this.lastUpdate = now;
-                this.Send();
-            }
-             */
         }
 
         void batteryLevelState_Changed(object sender, ChangeEventArgs args)
@@ -330,12 +264,6 @@ namespace nayutaya.batty.agent
                 this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
                 this.SendLevel();
             }
-
-            /*
-            this.AddLog("バッテリレベルが変化しました");
-            this.lastUpdate = DateTime.Now;
-            this.Send();
-             */
         }
 
         void batteryChargeState_Changed(object sender, ChangeEventArgs args)
@@ -359,12 +287,6 @@ namespace nayutaya.batty.agent
                 this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
                 this.SendLevel();
             }
-
-            /*
-            this.AddLog("電源/充電状態が変化しました");
-            this.lastUpdate = DateTime.Now;
-            this.Send();
-             */
         }
 
         private void exitButton_Click(object sender, EventArgs e)
@@ -389,9 +311,6 @@ namespace nayutaya.batty.agent
             this.AddLog("手動送信");
             this.RecordLevel();
             this.SendLevel();
-            /*
-            this.Send();
-             */
         }
 
         private void settingButton_Click(object sender, EventArgs e)
