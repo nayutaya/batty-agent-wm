@@ -288,6 +288,8 @@ namespace nayutaya.batty.agent
 
         private void exitButton_Click(object sender, EventArgs e)
         {
+            if ( !this.initialized ) return;
+
             Application.Exit();
         }
 
