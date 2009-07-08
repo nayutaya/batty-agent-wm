@@ -108,11 +108,89 @@ namespace nayutaya.batty.agent
         private void RecordLevel()
         {
             this.lastRecord = DateTime.Now;
+
+            BatteryStatus bs = new BatteryStatus();
+
+            if ( !this.setting.EnableRecordOnBatteryCharging )
+            {
+                if ( !bs.Charging.HasValue )
+                {
+                    this.AddLog("充電状態が不明です");
+                    return;
+                }
+                if ( bs.Charging.Value )
+                {
+                    this.AddLog("充電中のため記録しませんでした");
+                    return;
+                }
+            }
+
+            if ( !this.setting.EnableRecordOnPowerConnecting )
+            {
+                if ( !bs.PowerLineConnecting.HasValue )
+                {
+                    this.AddLog("電源状態が不明です");
+                    return;
+                }
+                if ( bs.PowerLineConnecting.Value )
+                {
+                    this.AddLog("電源接続中のため記録しませんでした");
+                    return;
+                }
+            }
+
+            if ( !bs.LifePercent.HasValue )
+            {
+                this.AddLog("バッテリレベルが不明です");
+                return;
+            }
+
+            Record record = new Record(DateTime.Now, bs.LifePercent.Value);
+            this.recordManager.Add(record);
+            this.recordManager.Save();
+
+            if ( this.setting.EnableLevelLog )
+            {
+                this.logger.Write(DateTime.Now, bs.LifePercent.Value);
+            }
+
+            this.AddLog("記録しました");
         }
 
         private void SendLevel()
         {
             this.lastSend = DateTime.Now;
+
+            List<Record> records = this.recordManager.GetUnsentRecords();
+            if ( records.Count < 1 )
+            {
+                return;
+            }
+
+            this.AddLog(String.Format("{0}件の未送信レコードがあります", records.Count));
+
+            string deviceToken = this.setting.DeviceToken;
+
+            foreach ( Record record in records )
+            {
+                WebRequest request = this.CreateUpdateRequest(deviceToken, record.Level.ToString());
+
+                try
+                {
+                    using ( WebResponse response = request.GetResponse() )
+                    {
+                        this.recordManager.MarkSent(record.Time, record.Level);
+                        this.AddLog("1件送信しました");
+                    }
+                }
+                catch ( Exception ex )
+                {
+                    this.AddLog(ex.GetType().Name + ": " + ex.Message);
+                    break;
+                }
+            }
+
+            this.AddLog("送信しました");
         }
 
         private bool Send()
@@ -152,10 +230,6 @@ namespace nayutaya.batty.agent
             string deviceToken = this.setting.DeviceToken;
             byte level = bs.LifePercent.Value;
 
-            if ( this.setting.EnableLevelLog )
-            {
-                this.logger.Write(DateTime.Now, level);
-            }
 
             WebRequest request = this.CreateUpdateRequest(deviceToken, level.ToString());
 
@@ -211,12 +285,13 @@ namespace nayutaya.batty.agent
                 this.SendLevel();
             }
 
-            if ( this.setting.SendOnCount && this.recordManager.Count >= this.setting.SendOnCountRecord )
+            if ( this.setting.SendOnCount && this.recordManager.UnsentCount >= this.setting.SendOnCountRecord )
             {
                 this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
                 this.SendLevel();
             }
 
+            /*
             DateTime nextUpdate = this.lastUpdate.AddMinutes(this.setting.RecordOnIntervalMinute).AddSeconds(-30);
             if ( now >= nextUpdate )
             {
@@ -224,6 +299,7 @@ namespace nayutaya.batty.agent
                 this.lastUpdate = now;
                 this.Send();
             }
+             */
         }
 
         void batteryLevelState_Changed(object sender, ChangeEventArgs args)
@@ -242,15 +318,17 @@ namespace nayutaya.batty.agent
                 this.SendLevel();
             }
 
-            if ( this.setting.SendOnCount && this.recordManager.Count >= this.setting.SendOnCountRecord )
+            if ( this.setting.SendOnCount && this.recordManager.UnsentCount >= this.setting.SendOnCountRecord )
             {
                 this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
                 this.SendLevel();
             }
 
+            /*
             this.AddLog("バッテリレベルが変化しました");
             this.lastUpdate = DateTime.Now;
             this.Send();
+             */
         }
 
         void batteryChargeState_Changed(object sender, ChangeEventArgs args)
@@ -269,15 +347,17 @@ namespace nayutaya.batty.agent
                 this.SendLevel();
             }
 
-            if ( this.setting.SendOnCount && this.recordManager.Count >= this.setting.SendOnCountRecord )
+            if ( this.setting.SendOnCount && this.recordManager.UnsentCount >= this.setting.SendOnCountRecord )
             {
                 this.AddLog(String.Format("送信: {0}件溜まりました", this.setting.SendOnCountRecord));
                 this.SendLevel();
             }
 
+            /*
             this.AddLog("電源/充電状態が変化しました");
             this.lastUpdate = DateTime.Now;
             this.Send();
+             */
         }
 
         private void exitButton_Click(object sender, EventArgs e)
@@ -300,7 +380,11 @@ namespace nayutaya.batty.agent
             if ( !this.initialized ) return;
 
             this.AddLog("手動送信");
+            this.RecordLevel();
+            this.SendLevel();
+            /*
             this.Send();
+             */
         }
 
         private void settingButton_Click(object sender, EventArgs e)

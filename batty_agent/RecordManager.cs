@@ -23,6 +23,11 @@ namespace nayutaya.batty.agent
             get { return this.records.Count; }
         }
 
+        public int UnsentCount
+        {
+            get { return this.GetUnsentRecords().Count; }
+        }
+
         public void Add(Record record)
         {
             this.records.Add(record);
