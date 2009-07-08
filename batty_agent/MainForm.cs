@@ -173,7 +173,14 @@ namespace nayutaya.batty.agent
 
             foreach ( Record record in records )
             {
-                WebRequest request = this.CreateUpdateRequest(deviceToken, record.Level.ToString());
+                string time = record.Time.ToString("yyyyMMddHHmmss");
+                string level = record.Level.ToString();
+                string host = "batty.nayutaya.jp";
+                string url = "http://" + host + "/device/token/" + deviceToken + "/energies/update/" + level + "/" + time;
+
+                WebRequest request = WebRequest.Create(url);
+                request.Method = "POST";
+                request.Timeout = 20 * 1000;
 
                 try
                 {
