@@ -58,6 +58,105 @@ namespace nayutaya.batty.agent
             this.batteryChargeState.Changed += new ChangeEventHandler(batteryChargeState_Changed);
         }
 
+        private delegate void AddLogDelegate(string message);
+        private void AddLog(string message)
+        {
+            if ( this.InvokeRequired )
+            {
+                this.Invoke(new AddLogDelegate(this.AddLog), message);
+                return;
+            }
+
+            DateTime dt = DateTime.Now;
+
+            ListViewItem lvi = new ListViewItem();
+            lvi.Text = dt.ToString("hh:mm:ss");
+            lvi.SubItems.Add(message);
+
+            this.listView1.Items.Insert(0, lvi);
+
+            while ( this.listView1.Items.Count > 20 )
+            {
+                this.listView1.Items.RemoveAt(20);
+            }
+        }
+
+        private string CreateUpdateUrl(string deviceToken, string level)
+        {
+            string host = "batty.nayutaya.jp";
+            string path = "http://" + host + "/device/token/" + deviceToken + "/energies/update";
+            return path + "/" + level;
+        }
+
+        private WebRequest CreateUpdateRequest(string deviceToken, string level)
+        {
+            string url = this.CreateUpdateUrl(deviceToken, level);
+            WebRequest request = WebRequest.Create(url);
+            request.Method = "POST";
+            request.Timeout = 20 * 1000;
+
+            return request;
+        }
+
+        private bool Send()
+        {
+            BatteryStatus bs = new BatteryStatus();
+
+            if ( !bs.PowerLineConnecting.HasValue )
+            {
+                this.AddLog("電源状態が不明です");
+                return false;
+            }
+            /*
+            if ( bs.PowerLineConnecting.Value )
+            {
+                this.AddLog("電源接続中です");
+                return false;
+            }
+             */
+            if ( !bs.Charging.HasValue )
+            {
+                this.AddLog("充電状態が不明です");
+                return false;
+            }
+            /*
+            if ( bs.Charging.Value )
+            {
+                this.AddLog("充電中です");
+                return false;
+            }
+             */
+            if ( !bs.LifePercent.HasValue )
+            {
+                this.AddLog("バッテリレベルが不明です");
+                return false;
+            }
+
+            string deviceToken = this.setting.DeviceToken;
+            byte level = bs.LifePercent.Value;
+
+            if ( this.setting.EnableLevelLog )
+            {
+                this.logger.Write(DateTime.Now, level);
+            }
+
+            WebRequest request = this.CreateUpdateRequest(deviceToken, level.ToString());
+
+            try
+            {
+                using ( WebResponse response = request.GetResponse() )
+                {
+                    this.AddLog("送信しました");
+                    return true;
+                }
+            }
+            catch ( Exception ex )
+            {
+                this.AddLog(ex.GetType().Name + ": " + ex.Message);
+                return false;
+            }
+        }
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             if ( !this.initialized )
@@ -122,111 +221,12 @@ namespace nayutaya.batty.agent
             this.AddLog("電源接続中: " + (battery.PowerLineConnecting.HasValue ? (battery.PowerLineConnecting.Value ? "はい" : "いいえ") : "不明"));
         }
 
-        private delegate void AddLogDelegate(string message);
-        private void AddLog(string message)
-        {
-            if ( this.InvokeRequired )
-            {
-                this.Invoke(new AddLogDelegate(this.AddLog), message);
-                return;
-            }
-
-            DateTime dt = DateTime.Now;
-
-            ListViewItem lvi = new ListViewItem();
-            lvi.Text = dt.ToString("hh:mm:ss");
-            lvi.SubItems.Add(message);
-
-            this.listView1.Items.Insert(0, lvi);
-
-            while ( this.listView1.Items.Count > 20 )
-            {
-                this.listView1.Items.RemoveAt(20);
-            }
-        }
-
         private void sendButton_Click(object sender, EventArgs e)
         {
             if ( !this.initialized ) return;
 
             this.AddLog("手動送信");
             this.Send();
-        }
-
-        private string CreateUpdateUrl(string deviceToken, string level)
-        {
-            string host = "batty.nayutaya.jp";
-            string path = "http://" + host + "/device/token/" + deviceToken + "/energies/update";
-            return path + "/" + level;
-        }
-
-        private WebRequest CreateUpdateRequest(string deviceToken, string level)
-        {
-            string url = this.CreateUpdateUrl(deviceToken, level);
-            WebRequest request = WebRequest.Create(url);
-            request.Method = "POST";
-            request.Timeout = 20 * 1000;
-            
-            return request;
-        }
-
-        private bool Send()
-        {
-            BatteryStatus bs = new BatteryStatus();
-
-            if ( !bs.PowerLineConnecting.HasValue )
-            {
-                this.AddLog("電源状態が不明です");
-                return false;
-            }
-            /*
-            if ( bs.PowerLineConnecting.Value )
-            {
-                this.AddLog("電源接続中です");
-                return false;
-            }
-             */
-            if ( !bs.Charging.HasValue )
-            {
-                this.AddLog("充電状態が不明です");
-                return false;
-            }
-            /*
-            if ( bs.Charging.Value )
-            {
-                this.AddLog("充電中です");
-                return false;
-            }
-             */
-            if ( !bs.LifePercent.HasValue )
-            {
-                this.AddLog("バッテリレベルが不明です");
-                return false;
-            }
-
-            string deviceToken = this.setting.DeviceToken;
-            byte level = bs.LifePercent.Value;
-
-            if ( this.setting.EnableLevelLog )
-            {
-                this.logger.Write(DateTime.Now, level);
-            }
-
-            WebRequest request = this.CreateUpdateRequest(deviceToken, level.ToString());
-
-            try
-            {
-                using ( WebResponse response = request.GetResponse() )
-                {
-                    this.AddLog("送信しました");
-                    return true;
-                }
-            }
-            catch ( Exception ex )
-            {
-                this.AddLog(ex.GetType().Name + ": " + ex.Message);
-                return false;
-            }
         }
 
         private void settingButton_Click(object sender, EventArgs e)
