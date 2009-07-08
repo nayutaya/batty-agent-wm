@@ -12,7 +12,7 @@ namespace nayutaya.batty.agent
 
         public Logger()
         {
-            DirectoryInfo rootdir = new DirectoryInfo(this.GetExecutingAssemblyDirectoryPath());
+            DirectoryInfo rootdir = new DirectoryInfo(Utility.GetExecutingAssemblyDirectoryPath());
             this.logdir = rootdir.CreateSubdirectory("log").FullName;
         }
 
@@ -26,18 +26,6 @@ namespace nayutaya.batty.agent
                 string datetime = time.ToString("yyyy-MM-dd HH:mm:ss");
                 writer.WriteLine("{0},{1}", datetime, level.ToString());
             }
-        }
-
-        // TODO: ユーティリティクラスに移動する
-        private string GetExecutingAssemblyFilePath()
-        {
-            return System.Reflection.Assembly.GetExecutingAssembly().ManifestModule.FullyQualifiedName;
-        }
-
-        // TODO: ユーティリティクラスに移動する
-        private string GetExecutingAssemblyDirectoryPath()
-        {
-            return System.IO.Path.GetDirectoryName(this.GetExecutingAssemblyFilePath());
         }
     }
 }

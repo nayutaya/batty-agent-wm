@@ -11,7 +11,7 @@ namespace nayutaya.batty.agent
 
         public SettingManager()
         {
-            this.filepath = this.GetExecutingAssemblyDirectoryPath() + @"\setting.xml";
+            this.filepath = Utility.GetExecutingAssemblyDirectoryPath() + @"\setting.xml";
         }
 
         public void Load(Setting setting)
@@ -60,18 +60,6 @@ namespace nayutaya.batty.agent
             this.SaveValue(settingFile, "SendTiming", "SendOnChangeChargeState", setting.SendOnChangeChargeState);
 
             settingFile.Save();
-        }
-
-        // TODO: ユーティリティクラスに移動する
-        private string GetExecutingAssemblyFilePath()
-        {
-            return System.Reflection.Assembly.GetExecutingAssembly().ManifestModule.FullyQualifiedName;
-        }
-
-        // TODO: ユーティリティクラスに移動する
-        private string GetExecutingAssemblyDirectoryPath()
-        {
-            return System.IO.Path.GetDirectoryName(this.GetExecutingAssemblyFilePath());
         }
 
         private OpenNETCF.AppSettings.SettingsFile GetSettingsFile()
