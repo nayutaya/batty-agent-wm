@@ -186,6 +186,7 @@ namespace nayutaya.batty.agent
                     using ( WebResponse response = request.GetResponse() )
                     {
                         this.recordManager.MarkSent(record.Time, record.Level);
+                        this.recordManager.Save();
                         this.AddLog("1件送信しました");
                     }
                 }
